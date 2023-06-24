@@ -1,0 +1,89 @@
+﻿@page "/Produtos"
+@using CadastroProdutosWasm.Helpers;
+@using CadastroProdutosWasm.Models;
+@using CadastroProdutoDll.DOs;
+
+<PageTitle>Cadastro de Produtos</PageTitle>
+
+<h1>Produtos</h1>
+
+@if (objetos == null)
+{
+    <p><em>Carregando...</em></p>
+}
+else
+{
+    <a class="btn btn-primary" href=@($"./Produto_incluir")>Incluir</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Altura</th>
+                <th>Peso</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in objetos)
+            {
+                <tr>
+                    <td>@obj.Nome</td>
+                    <td>@obj.Altura.ToString("N2")</td>
+                    <td>@obj.Peso.ToString("N2")</td>
+                    <td>
+                        <a class="btn btn-warning" href=@($"./Produto_alterar/{obj.Id}")>Alterar</a>
+                        <button class="btn btn-danger" @onclick="() => Excluir(obj.Id)">
+                            Excluir
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    protected async override Task OnInitializedAsync()
+    {        
+        objetos = await api.RetornarTodosAsync();
+    }
+
+    private AcessoApi<ProdutoDO> api = new AcessoApi<ProdutoDO>("api/Produto");
+
+    private IList<ProdutoDO>? objetos;
+    
+    private ProdutoDO objetoAtual = new ProdutoDO();
+
+    private void Alterar(ProdutoDO objeto)
+    {
+        objetoAtual = new ProdutoDO 
+        {
+            Id = objeto.Id, 
+            Nome = objeto.Nome, 
+            Altura = objeto.Altura,
+            Peso = objeto.Peso
+        };
+    }
+
+    private async void Excluir(string? id)
+    {
+        if (id != null)
+        {
+            await api.ExcluirAsync(id);
+            objetos = await api.RetornarTodosAsync();
+            this.StateHasChanged();
+        }
+    }
+
+    private async void Gravar()
+    {
+        if (objetoAtual.Id == null)
+            await api.InserirAsync(objetoAtual);
+        else
+            await api.AlterarAsync(objetoAtual);
+        
+        objetoAtual = new ProdutoDO();
+        objetos = await api.RetornarTodosAsync();
+        this.StateHasChanged();
+    }
+}

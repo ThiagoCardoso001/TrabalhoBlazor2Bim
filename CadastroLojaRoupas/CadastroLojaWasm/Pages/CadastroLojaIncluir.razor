@@ -1,0 +1,45 @@
+﻿@page "/Produto_incluir"
+@using CadastroProdutosWasm.Helpers;
+@using CadastroProdutoDll.DOs;
+@inject NavigationManager NavigationManager
+
+<PageTitle>Cadastro de Produtos</PageTitle>
+
+<h1>Incluindo Produto</h1>
+
+<div>
+    <div>
+        <label class="form-label">Nome</label>
+        <input class="form-control" @bind="@obj.Nome" />
+    </div>
+    <div>
+        <label class="form-label">Altura</label>
+        <input class="form-control" @bind="@obj.Altura" />
+    </div>
+    <div>
+        <label class="form-label">Peso</label>
+        <input class="form-control" @bind="@obj.Peso" />
+    </div>
+    <div class="mt-2">
+        <button class="btn btn-success" @onclick="Gravar">Gravar</button>
+        <a class="ml-1 btn btn-secondary" href="./Produtos">Voltar</a>
+    </div>
+    
+</div>
+    
+@code {
+    private AcessoApi<ProdutoDO> api = new AcessoApi<ProdutoDO>("api/Produto");
+
+    private ProdutoDO obj = new ProdutoDO();
+
+    [Parameter]
+    public string Id { get; set; } = "";
+
+    private async void Gravar()
+    {
+        var objRetorno = await api.InserirAsync(obj);
+        
+        if (objRetorno != null)
+            NavigationManager.NavigateTo($"Produto_alterar/{objRetorno.Id}");
+    }
+}
