@@ -1,1 +1,0 @@
-Altere no arquivo appsettings.json a string de conexão com o banco MySQL.
