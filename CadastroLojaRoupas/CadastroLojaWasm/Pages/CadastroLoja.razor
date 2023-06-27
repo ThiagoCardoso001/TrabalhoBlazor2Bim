@@ -18,8 +18,8 @@ else
         <thead>
             <tr>
                 <th>Nome</th>
-                <th>Altura</th>
-                <th>Peso</th>
+                <th>Fabricante</th>
+                <th>Marca</th>
                 <th></th>
             </tr>
         </thead>
@@ -28,8 +28,8 @@ else
             {
                 <tr>
                     <td>@obj.Nome</td>
-                    <td>@obj.Altura.ToString("N2")</td>
-                    <td>@obj.Peso.ToString("N2")</td>
+                    <td>@obj.Fabricante.ToString("N2")</td>
+                    <td>@obj.Marca.ToString("N2")</td>
                     <td>
                         <a class="btn btn-warning" href=@($"./Produto_alterar/{obj.Id}")>Alterar</a>
                         <button class="btn btn-danger" @onclick="() => Excluir(obj.Id)">
@@ -60,8 +60,8 @@ else
         {
             Id = objeto.Id, 
             Nome = objeto.Nome, 
-            Altura = objeto.Altura,
-            Peso = objeto.Peso
+            Fabricante = objeto.Fabricante,
+            Marca = objeto.Marca
         };
     }
 

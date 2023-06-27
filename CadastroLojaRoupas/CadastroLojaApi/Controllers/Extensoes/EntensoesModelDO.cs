@@ -16,8 +16,8 @@ namespace CadastroProdutoApi.Controllers.Extensoes
             {
                 Id = obj.Id,
                 Nome = obj.Nome,
-                Altura = obj.Altura,
-                Peso = obj.Peso
+                Fabricante = obj.Fabricante,
+                Marca = obj.Marca
             };
         }
 
@@ -45,8 +45,8 @@ namespace CadastroProdutoApi.Controllers.Extensoes
                 obj = new Produto();
 
             obj.Nome = objDO.Nome;
-            obj.Altura = objDO.Altura;
-            obj.Peso = objDO.Peso;
+            obj.Fabricante = objDO.Fabricante;
+            obj.Marca = objDO.Marca;
 
             return obj;
         }
